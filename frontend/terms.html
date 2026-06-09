@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms & Conditions – Pixel Flow</title>
+  <meta name="description" content="Terms and Conditions for Pixel Flow – web development and video editing services." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Nunito:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" crossorigin="anonymous" />
+
+  <style>
+    :root {
+      --bg:           #0a0a15;
+      --bg-card:      #0f0e22;
+      --bg-section:   #110f28;
+      --purple-deep:  #1a0840;
+      --purple-mid:   #5a1a8a;
+      --purple-bright:#7b2fbe;
+      --neon:         #9b30ff;
+      --neon-glow:    #bf5fff;
+      --cyan:         #32e8f5;
+      --green:        #00ff88;
+      --text:         #e8e4f0;
+      --text-muted:   #8a7fa8;
+      --text-dim:     #4a4268;
+      --border:       #1e1640;
+      --border-neon:  rgba(155,48,255,0.3);
+      --mono:         'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    .blob { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0.12; }
+    .blob-1 { width: 500px; height: 500px; background: var(--neon); top: -100px; left: -150px; animation: blobDrift1 18s ease-in-out infinite; }
+    .blob-2 { width: 400px; height: 400px; background: var(--cyan); bottom: 100px; right: -100px; animation: blobDrift2 22s ease-in-out infinite; }
+    .blob-3 { width: 300px; height: 300px; background: var(--purple-mid); top: 40%; left: 40%; animation: blobDrift3 15s ease-in-out infinite; }
+
+    @keyframes blobDrift1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,40px)} }
+    @keyframes blobDrift2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,-60px)} }
+    @keyframes blobDrift3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-30px)} }
+
+    .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .particles span { position: absolute; border-radius: 50%; background: var(--neon); opacity: 0; animation: floatUp linear infinite; }
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.12; }
+      90%  { opacity: 0.04; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    .wrapper { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
+
+    header { position: relative; z-index: 1; padding: 60px 32px 0; max-width: 1100px; margin: 0 auto; }
+
+    .nav-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 80px; }
+
+    .logo {
+      font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: 1.4rem;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--text);
+      text-decoration: none; display: flex; align-items: center; gap: 10px;
+    }
+    .logo-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--purple-bright), var(--neon));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: #fff; box-shadow: 0 0 14px rgba(155,48,255,0.5);
+    }
+    .logo span { color: var(--neon); }
+
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; font-weight: 600; }
+    .nav-links a:hover { color: var(--neon); }
+
+    .hero { margin-bottom: 70px; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--neon); margin-bottom: 20px;
+      background: rgba(155,48,255,0.08); border: 1px solid rgba(155,48,255,0.2);
+      padding: 6px 14px; border-radius: 4px;
+    }
+    .hero-eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.4)} }
+
+    .hero h1 {
+      font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 1.0; letter-spacing: -1px; text-transform: uppercase;
+      background: linear-gradient(135deg, #fff 20%, var(--neon-glow) 60%, var(--neon) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 20px;
+    }
+
+    .hero-meta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); }
+    .hero-meta .sep { color: var(--text-dim); }
+    .hero-meta .version { color: var(--cyan); background: rgba(50,232,245,0.08); border: 1px solid rgba(50,232,245,0.2); padding: 3px 10px; border-radius: 3px; }
+
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border-neon), transparent); margin: 0 0 60px; }
+
+    .toc-block {
+      background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--neon);
+      border-radius: 12px; padding: 32px 36px; margin-bottom: 60px; position: relative; overflow: hidden;
+    }
+    .toc-block::before { content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: radial-gradient(circle, rgba(155,48,255,0.08) 0%, transparent 70%); pointer-events: none; }
+    .toc-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--neon); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .toc-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-neon), transparent); }
+    .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+    .toc-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; text-decoration: none; color: var(--text-muted); font-size: 0.83rem; font-weight: 500; transition: background 0.2s, color 0.2s; border: 1px solid transparent; }
+    .toc-item:hover { background: rgba(155,48,255,0.08); border-color: var(--border-neon); color: var(--text); }
+    .toc-num { font-family: var(--mono); font-size: 0.65rem; color: var(--neon); opacity: 0.7; min-width: 22px; }
+
+    .section { margin-bottom: 52px; opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 28px; }
+    .section-num { font-family: var(--mono); font-size: 0.7rem; color: var(--neon); letter-spacing: 2px; background: rgba(155,48,255,0.08); border: 1px solid rgba(155,48,255,0.2); padding: 6px 10px; border-radius: 4px; white-space: nowrap; margin-top: 4px; }
+    .section-title { font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 1.4rem; color: var(--text); letter-spacing: 0.5px; }
+    .section-title em { font-style: normal; color: var(--neon); }
+
+    .section-body { padding-left: 62px; }
+    .section-body p { font-size: 0.92rem; line-height: 1.85; color: var(--text-muted); margin-bottom: 16px; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    .highlight { background: rgba(155,48,255,0.06); border: 1px solid rgba(155,48,255,0.18); border-radius: 8px; padding: 18px 22px; margin: 18px 0; font-size: 0.87rem; line-height: 1.8; color: var(--text); }
+    .highlight.cyan { border-color: rgba(50,232,245,0.2); background: rgba(50,232,245,0.05); }
+    .highlight.green { border-color: rgba(0,255,136,0.2); background: rgba(0,255,136,0.05); }
+    .highlight.warn  { border-color: rgba(255,180,0,0.2); background: rgba(255,180,0,0.05); color: #f0d080; }
+
+    .term-list { list-style: none; margin: 14px 0 18px; }
+    .term-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.88rem; line-height: 1.75; color: var(--text-muted); margin-bottom: 10px; }
+    .term-list li::before { content: '▸'; color: var(--neon); font-size: 0.75rem; margin-top: 3px; flex-shrink: 0; }
+
+    code { font-family: var(--mono); font-size: 0.82rem; color: var(--cyan); background: rgba(50,232,245,0.08); padding: 1px 6px; border-radius: 3px; }
+
+    .section-sep { height: 1px; background: linear-gradient(90deg, var(--border-neon), transparent); margin: 0 0 52px 62px; }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+    .pill { font-family: var(--mono); font-size: 0.72rem; padding: 5px 12px; border-radius: 4px; background: rgba(155,48,255,0.1); border: 1px solid rgba(155,48,255,0.25); color: var(--neon); letter-spacing: 1px; }
+    .pill.cyan { background: rgba(50,232,245,0.08); border-color: rgba(50,232,245,0.25); color: var(--cyan); }
+
+    .contact-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 48px; margin-top: 60px; position: relative; overflow: hidden; text-align: center; }
+    .contact-block::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(155,48,255,0.12) 0%, transparent 70%); pointer-events: none; }
+    .contact-block h2 { font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: 1.8rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text); margin-bottom: 10px; position: relative; z-index: 1; }
+    .contact-block p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 32px; position: relative; z-index: 1; }
+    .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; position: relative; z-index: 1; }
+    .contact-btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: 50px; font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; transition: all 0.25s; cursor: pointer; }
+    .contact-btn.primary { background: linear-gradient(90deg, var(--purple-bright), var(--neon)); color: #fff; box-shadow: 0 4px 18px rgba(155,48,255,0.4); }
+    .contact-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(155,48,255,0.6); }
+    .contact-btn.ghost { background: transparent; border: 1px solid var(--border-neon); color: var(--text-muted); }
+    .contact-btn.ghost:hover { border-color: var(--neon); color: var(--text); background: rgba(155,48,255,0.08); }
+
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 32px; max-width: 1100px; margin: 40px auto 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    footer .footer-brand { font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
+    footer .footer-brand span { color: var(--neon); }
+    footer p { font-size: 0.75rem; color: var(--text-dim); font-family: var(--mono); }
+
+    .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--purple-bright), var(--neon), var(--cyan)); z-index: 9999; width: 0%; transition: width 0.1s linear; box-shadow: 0 0 8px var(--neon); }
+
+    .back-top { position: fixed; bottom: 32px; right: 32px; width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--purple-bright), var(--neon)); border: none; cursor: pointer; color: #fff; font-size: 14px; box-shadow: 0 4px 18px rgba(155,48,255,0.4); display: flex; align-items: center; justify-content: center; transition: all 0.3s; opacity: 0; pointer-events: none; z-index: 999; }
+    .back-top.show { opacity: 1; pointer-events: auto; }
+    .back-top:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(155,48,255,0.65); }
+
+    @media (max-width: 640px) {
+      header { padding: 36px 20px 0; }
+      .wrapper { padding: 0 20px 60px; }
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2.4rem; }
+      .toc-grid { grid-template-columns: 1fr; }
+      .section-body { padding-left: 0; }
+      .section-sep { margin-left: 0; }
+      .contact-block { padding: 32px 24px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="particles" id="particles"></div>
+
+  <button class="back-top" id="backTop" aria-label="Back to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <header>
+    <nav class="nav-bar">
+      <a href="#" class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+        Pixel<span>Flow</span>
+      </a>
+      <div class="nav-links">
+        <a href="login.html">Home</a>
+        <a href="#s2">Services</a>
+        <a href="mailto:wearepixelflow@gmail.com">Contact</a>
+      </div>
+    </nav>
+
+    <div class="hero" id="top">
+      <div class="hero-eyebrow"><div class="dot"></div>Legal Document</div>
+      <h1>Terms &<br>Conditions</h1>
+      <div class="hero-meta">
+        <span class="version">v2.0</span>
+        <span class="sep">·</span>
+        <span>Effective: June 1, 2025</span>
+        <span class="sep">·</span>
+        <span>Last updated: June 7, 2025</span>
+        <span class="sep">·</span>
+        <span>Pixel Flow Studio</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+  </header>
+
+  <div class="wrapper">
+
+    <div class="toc-block">
+      <div class="toc-label">Contents</div>
+      <div class="toc-grid">
+        <a href="#s1"  class="toc-item"><span class="toc-num">01</span> Acceptance of Terms</a>
+        <a href="#s2"  class="toc-item"><span class="toc-num">02</span> Services We Offer</a>
+        <a href="#s3"  class="toc-item"><span class="toc-num">03</span> Project Scope & Deliverables</a>
+        <a href="#s4"  class="toc-item"><span class="toc-num">04</span> Payment & Pricing</a>
+        <a href="#s5"  class="toc-item"><span class="toc-num">05</span> Revisions & Change Requests</a>
+        <a href="#s6"  class="toc-item"><span class="toc-num">06</span> Client Responsibilities</a>
+        <a href="#s7"  class="toc-item"><span class="toc-num">07</span> Intellectual Property</a>
+        <a href="#s8"  class="toc-item"><span class="toc-num">08</span> Confidentiality</a>
+        <a href="#s9"  class="toc-item"><span class="toc-num">09</span> Turnaround & Timelines</a>
+        <a href="#s10" class="toc-item"><span class="toc-num">10</span> Cancellation & Refunds</a>
+        <a href="#s11" class="toc-item"><span class="toc-num">11</span> Limitation of Liability</a>
+        <a href="#s12" class="toc-item"><span class="toc-num">12</span> Third-Party Tools & Plugins</a>
+        <a href="#s13" class="toc-item"><span class="toc-num">13</span> Portfolio & Credits</a>
+        <a href="#s14" class="toc-item"><span class="toc-num">14</span> Governing Law</a>
+        <a href="#s15" class="toc-item"><span class="toc-num">15</span> Contact & Disputes</a>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-bottom:52px;font-size:0.9rem;line-height:1.9;">
+      Please read these Terms and Conditions carefully before engaging with Pixel Flow for any services. By reaching out, placing an order, making a payment, or receiving any deliverable from us, you confirm that you have read, understood, and agreed to be bound by these terms in their entirety.
+    </div>
+
+    <!-- S1 -->
+    <div class="section" id="s1">
+      <div class="section-header"><span class="section-num">01</span><h2 class="section-title">Acceptance of <em>Terms</em></h2></div>
+      <div class="section-body">
+        <p>These Terms and Conditions ("Terms") constitute a legally binding agreement between you ("Client," "you," or "your") and Pixel Flow ("we," "us," or "our"). They govern all services provided through our platforms, including direct communication via email at <code>wearepixelflow@gmail.com</code>, Instagram <code>@wearepixelflow</code>, or any other channel.</p>
+        <p>Engaging with Pixel Flow in any capacity — including but not limited to requesting a quote, making a payment, or approving work — constitutes full acceptance of these Terms. If you do not agree, you must not use our services.</p>
+        <div class="highlight green">These Terms may be updated at any time. Continued use of our services after changes are published constitutes acceptance of the revised Terms. We will notify you of significant changes via the contact information on file.</div>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S2 -->
+    <div class="section" id="s2">
+      <div class="section-header"><span class="section-num">02</span><h2 class="section-title">Services We <em>Offer</em></h2></div>
+      <div class="section-body">
+        <p>Pixel Flow is a creative studio specialising in digital craftsmanship. Our services include but are not limited to:</p>
+        <div class="pill-row">
+          <span class="pill">Web Development</span>
+          <span class="pill">UI / UX Design</span>
+          <span class="pill">Video Editing</span>
+          <span class="pill">Motion Graphics</span>
+          <span class="pill">Reels & Short-form</span>
+          <span class="pill">Landing Pages</span>
+          <span class="pill">Frontend Development</span>
+          <span class="pill">Brand Identity</span>
+          <span class="pill cyan">Custom Animations</span>
+          <span class="pill cyan">CMS Integration</span>
+          <span class="pill cyan">Performance Optimisation</span>
+        </div>
+        <p>All services are provided on a project-by-project basis or as part of a retainer, as agreed upon before work begins. Pixel Flow reserves the right to decline any project at its sole discretion.</p>
+        <ul class="term-list">
+          <li>Services are scoped individually — what's included in one project does not automatically carry over to another.</li>
+          <li>We work primarily in <code>HTML/CSS/JS</code>, modern frameworks, and industry-standard video editing tools.</li>
+          <li>Pixel Flow does not guarantee results such as sales conversions, follower growth, or search rankings from any deliverable.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S3 -->
+    <div class="section" id="s3">
+      <div class="section-header"><span class="section-num">03</span><h2 class="section-title">Project Scope & <em>Deliverables</em></h2></div>
+      <div class="section-body">
+        <p>Prior to commencement of any project, Pixel Flow and the Client will agree upon a defined scope of work outlining specific deliverables, formats, and features to be completed.</p>
+        <div class="highlight warn">Any request that falls outside the agreed scope — including additional pages, features, resolutions, durations, or design iterations — will be treated as a new or expanded project and quoted separately. Scope creep is not covered under the original agreement.</div>
+        <ul class="term-list">
+          <li>All deliverable specifications (dimensions, duration, format, platform) must be confirmed before work begins.</li>
+          <li>Changes to the scope mid-project may result in timeline and cost adjustments.</li>
+          <li>Final deliverables are provided in agreed formats only. Source files require prior arrangement and may incur additional charges.</li>
+          <li>Pixel Flow will not be held responsible for how deliverables perform on third-party platforms outside our control.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S4 -->
+    <div class="section" id="s4">
+      <div class="section-header"><span class="section-num">04</span><h2 class="section-title">Payment & <em>Pricing</em></h2></div>
+      <div class="section-body">
+        <p>All pricing is communicated to the Client before work begins. Prices are quoted in Indian Rupees (INR) unless otherwise stated. Confirmed project quotes are honoured for the duration of that project.</p>
+        <ul class="term-list">
+          <li><strong>Advance Payment:</strong> A minimum of 50% advance is required before any work begins. Projects will not start without payment confirmation.</li>
+          <li><strong>Remaining Balance:</strong> The remaining balance is due upon completion, before delivery of final files.</li>
+          <li><strong>Late Payments:</strong> Accounts unpaid more than 7 days after the due date may result in a pause or cancellation of work.</li>
+          <li><strong>Payment Methods:</strong> We accept UPI, bank transfer, and other mutually agreed methods.</li>
+        </ul>
+        <div class="highlight cyan">All payments are non-refundable once work has commenced, except where explicitly stated in Section 10. Raising a payment dispute while a project is active is considered a breach of these Terms.</div>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S5 -->
+    <div class="section" id="s5">
+      <div class="section-header"><span class="section-num">05</span><h2 class="section-title">Revisions & Change <em>Requests</em></h2></div>
+      <div class="section-body">
+        <p>Each project package includes a defined number of revision rounds as specified during the initial agreement. Revisions must be submitted in one consolidated list per round.</p>
+        <ul class="term-list">
+          <li>A "revision" refers to minor adjustments within the original scope — colour changes, text edits, timing tweaks, layout adjustments.</li>
+          <li>A revision does not include conceptual changes, new sections, direction pivots, or format switches.</li>
+          <li>Revisions exceeding the agreed number will be billed at our standard rate.</li>
+          <li>Revision requests submitted more than 14 days after delivery may not be accepted under the original project terms.</li>
+        </ul>
+        <div class="highlight">All revision requests must be submitted in writing via email or DM with clear, specific feedback. Vague feedback without specific direction may not be actioned.</div>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S6 -->
+    <div class="section" id="s6">
+      <div class="section-header"><span class="section-num">06</span><h2 class="section-title">Client <em>Responsibilities</em></h2></div>
+      <div class="section-body">
+        <p>The quality of our output is directly tied to the quality and timeliness of input from the Client. By engaging Pixel Flow, you agree to:</p>
+        <ul class="term-list">
+          <li>Provide all required assets (images, videos, copy, brand guidelines, credentials) in the agreed format and by the agreed deadline.</li>
+          <li>Designate a single point of contact with decision-making authority to avoid conflicting instructions.</li>
+          <li>Respond to queries and approve deliverables within 72 hours. Client-caused delays may extend the project timeline at no fault of Pixel Flow.</li>
+          <li>Ensure all materials supplied are owned by you or legally licensed for commercial use. Pixel Flow is not liable for infringement arising from client-supplied content.</li>
+          <li>Obtain all necessary permissions for logos, music, footage, fonts, or third-party assets you request us to use.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S7 -->
+    <div class="section" id="s7">
+      <div class="section-header"><span class="section-num">07</span><h2 class="section-title">Intellectual <em>Property</em></h2></div>
+      <div class="section-body">
+        <p>Until full and final payment is received, all work created by Pixel Flow remains the exclusive intellectual property of Pixel Flow. Upon receipt of complete payment, ownership of the final deliverables is transferred to the Client, subject to the conditions below.</p>
+        <ul class="term-list">
+          <li><strong>Source Files:</strong> Project source files, raw edits, and working documents remain the property of Pixel Flow unless explicitly agreed and priced otherwise.</li>
+          <li><strong>Pixel Flow Tools:</strong> Internal templates, frameworks, scripts, or methodologies remain our property and are licensed to the Client for the specific project only.</li>
+          <li><strong>Third-Party Assets:</strong> Fonts, stock footage, plugins, or licensed assets are subject to their respective licences. Pixel Flow does not transfer third-party licences to Clients.</li>
+        </ul>
+        <div class="highlight">By submitting assets to Pixel Flow, you confirm you have the legal right to use them. You indemnify Pixel Flow against any claims arising from intellectual property violations in client-supplied materials.</div>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S8 -->
+    <div class="section" id="s8">
+      <div class="section-header"><span class="section-num">08</span><h2 class="section-title"><em>Confidentiality</em></h2></div>
+      <div class="section-body">
+        <p>Pixel Flow treats all Client information — business details, strategies, data, and unreleased content — as strictly confidential. We do not share, sell, or disclose your information to third parties without your explicit written consent, except where required by law.</p>
+        <ul class="term-list">
+          <li>Confidentiality obligations apply throughout the project and for 2 years after its completion.</li>
+          <li>Pixel Flow may share project information with trusted collaborators solely for the purpose of completing the project, under equivalent confidentiality obligations.</li>
+          <li>Clients are similarly expected not to publicly disclose Pixel Flow's internal processes, pricing structures, or unreleased work without permission.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S9 -->
+    <div class="section" id="s9">
+      <div class="section-header"><span class="section-num">09</span><h2 class="section-title">Turnaround & <em>Timelines</em></h2></div>
+      <div class="section-body">
+        <p>Estimated timelines are provided in good faith based on project scope, complexity, and our current workload. All timelines are estimates unless explicitly confirmed as guaranteed deadlines.</p>
+        <ul class="term-list">
+          <li>Timelines begin only after receipt of advance payment and all required project assets.</li>
+          <li>Delays caused by late client responses, scope changes, or incomplete assets will extend the timeline accordingly.</li>
+          <li>Rush or priority delivery is available and will be quoted at a premium rate.</li>
+          <li>Pixel Flow will communicate proactively if timelines need to be adjusted on our end.</li>
+        </ul>
+        <div class="pill-row">
+          <span class="pill">Standard delivery: as quoted</span>
+          <span class="pill cyan">Rush delivery: +25–50% premium</span>
+        </div>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S10 -->
+    <div class="section" id="s10">
+      <div class="section-header"><span class="section-num">10</span><h2 class="section-title">Cancellation & <em>Refunds</em></h2></div>
+      <div class="section-body">
+        <p>We understand that circumstances change. Here is our cancellation and refund policy:</p>
+        <ul class="term-list">
+          <li><strong>Before work begins:</strong> 100% refund of advance payment if cancellation is requested before any work has started.</li>
+          <li><strong>After work has commenced:</strong> No refund on advance payment. Work completed up to cancellation will be billed proportionally.</li>
+          <li><strong>After delivery of final files:</strong> No refunds. All sales are final upon delivery.</li>
+          <li><strong>Cancellation by Pixel Flow:</strong> In the unlikely event we cancel a project, a full refund of all amounts paid will be issued within 7 business days.</li>
+        </ul>
+        <div class="highlight warn">Chargebacks or payment disputes filed without prior communication with Pixel Flow will be contested and may result in legal action. Always contact us first at <code>wearepixelflow@gmail.com</code> before escalating any payment issue.</div>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S11 -->
+    <div class="section" id="s11">
+      <div class="section-header"><span class="section-num">11</span><h2 class="section-title">Limitation of <em>Liability</em></h2></div>
+      <div class="section-body">
+        <p>Pixel Flow's liability to you for any claim is limited to the total amount paid for the specific project in question. Under no circumstances shall Pixel Flow be liable for:</p>
+        <ul class="term-list">
+          <li>Loss of revenue, profits, business, or data arising from use of our deliverables.</li>
+          <li>Third-party platform behaviour, algorithm changes, or policy updates affecting the performance of our work.</li>
+          <li>Errors or omissions in client-supplied content used in our deliverables.</li>
+          <li>Consequential, indirect, or incidental damages of any kind.</li>
+          <li>Downtime, bugs, or compatibility issues arising from third-party hosting, CMS, or plugin updates after handoff.</li>
+        </ul>
+        <p>Pixel Flow makes no warranties, express or implied, beyond what is explicitly stated in the project agreement.</p>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S12 -->
+    <div class="section" id="s12">
+      <div class="section-header"><span class="section-num">12</span><h2 class="section-title">Third-Party Tools & <em>Plugins</em></h2></div>
+      <div class="section-body">
+        <p>Pixel Flow may use third-party tools, APIs, plugins, libraries, or stock asset services to deliver projects. These include hosting platforms, CMS systems, video asset libraries, font services, and code frameworks.</p>
+        <ul class="term-list">
+          <li>The use of such tools is subject to the respective third party's terms and licensing agreements.</li>
+          <li>Pixel Flow is not responsible for changes, discontinuation, or pricing adjustments by third-party providers.</li>
+          <li>Clients are responsible for maintaining their own subscriptions after project handoff unless a maintenance retainer is in place.</li>
+          <li>We will inform you of significant third-party dependencies during project scoping.</li>
+        </ul>
+        <div class="highlight cyan">All open-source libraries and frameworks used by Pixel Flow are used in compliance with their respective licences (<code>MIT</code>, <code>Apache 2.0</code>, etc.).</div>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S13 -->
+    <div class="section" id="s13">
+      <div class="section-header"><span class="section-num">13</span><h2 class="section-title">Portfolio & <em>Credits</em></h2></div>
+      <div class="section-body">
+        <p>Pixel Flow reserves the right to display completed work in our portfolio, on our website, and across our social media platforms (including <code>@wearepixelflow</code> on Instagram) for promotional purposes, unless the Client has explicitly requested otherwise in writing before the project begins.</p>
+        <ul class="term-list">
+          <li>Confidential or NDA-protected projects will not be shared publicly.</li>
+          <li>We may include a subtle "Built by Pixel Flow" credit on websites we develop unless the Client specifically opts out.</li>
+          <li>We will not share your business-sensitive data, strategy, or unreleased products when showcasing work.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S14 -->
+    <div class="section" id="s14">
+      <div class="section-header"><span class="section-num">14</span><h2 class="section-title">Governing <em>Law</em></h2></div>
+      <div class="section-body">
+        <p>These Terms shall be governed by and construed in accordance with the laws of India. Any disputes arising from or in connection with these Terms shall be subject to the exclusive jurisdiction of the competent courts of India.</p>
+        <p>In the event of a dispute, both parties agree to first attempt resolution through good-faith negotiation for a minimum of 30 days before pursuing formal legal proceedings.</p>
+      </div>
+    </div>
+    <div class="section-sep"></div>
+
+    <!-- S15 -->
+    <div class="section" id="s15">
+      <div class="section-header"><span class="section-num">15</span><h2 class="section-title">Contact & <em>Disputes</em></h2></div>
+      <div class="section-body">
+        <p>If you have any questions, concerns, or disputes related to these Terms or any Pixel Flow project, please reach out to us directly before taking any other action. We are committed to resolving issues fairly and quickly.</p>
+        <div class="pill-row">
+          <span class="pill"><i class="fa-solid fa-envelope" style="margin-right:6px"></i>wearepixelflow@gmail.com</span>
+          <span class="pill cyan"><i class="fa-brands fa-instagram" style="margin-right:6px"></i>@wearepixelflow</span>
+        </div>
+        <p>We aim to respond to all communications within 24–48 business hours.</p>
+      </div>
+    </div>
+
+    <div class="contact-block">
+      <h2>Questions about these Terms?</h2>
+      <p>We keep it simple. Reach out and we'll clear things up in plain language.</p>
+      <div class="contact-links">
+        <a href="mailto:wearepixelflow@gmail.com" class="contact-btn primary"><i class="fa-solid fa-envelope"></i> Email Us</a>
+        <a href="https://instagram.com/wearepixelflow" target="_blank" class="contact-btn ghost"><i class="fa-brands fa-instagram"></i> @wearepixelflow</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-brand">Pixel<span>Flow</span> Studio</div>
+    <p>© 2025 Pixel Flow. All rights reserved.</p>
+    <p>wearepixelflow@gmail.com</p>
+  </footer>
+
+  <script>
+    const pc = document.getElementById('particles');
+    for (let i = 0; i < 18; i++) {
+      const s = document.createElement('span');
+      const sz = Math.random() * 3 + 1.5;
+      s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;animation-duration:${Math.random()*16+10}s;animation-delay:${Math.random()*12}s;`;
+      pc.appendChild(s);
+    }
+
+    const pb = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = (window.scrollY / max * 100) + '%';
+    });
+
+    const bt = document.getElementById('backTop');
+    window.addEventListener('scroll', () => { bt.classList.toggle('show', window.scrollY > 400); });
+    bt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    const sections = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), 80); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    sections.forEach(s => observer.observe(s));
+  </script>
+
+</body>
+</html>

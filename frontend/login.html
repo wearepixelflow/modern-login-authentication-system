@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – Secure Access</title>
+ 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;900&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ 
+  <style>
+    :root {
+      --bg-dark:       #0d0d1a;
+      --bg-card:       #12112a;
+      --bg-left:       #110f28;
+      --bg-right:      #2a0a4a;
+      --purple-mid:    #5a1a8a;
+      --purple-bright: #7b2fbe;
+      --purple-neon:   #9b30ff;
+      --purple-glow:   #bf5fff;
+      --text-white:    #ffffff;
+      --text-muted:    #b0a8c8;
+      --input-bg:      #1c1a38;
+      --input-border:  #3a2a6a;
+      --input-focus:   #7b2fbe;
+      --label-purple:  #9b30ff;
+      --flip-duration: 0.9s;
+
+    }
+  
+    :root.teal {
+  --bg-dark:       #030f0d;
+  --bg-left:       #061f1a;
+  --bg-right:      #0a3330;
+  --purple-mid:    #0d5c4a;
+  --purple-bright: #00c98a;
+  --purple-neon:   #00ffb3;
+  --purple-glow:   #5fffd6;
+  --text-muted:    #7ecfbb;
+  --input-bg:      #0b2820;
+  --input-border:  #0d4a3a;
+  --input-focus:   #00c98a;
+  --label-purple:  #00ffb3;
+}
+ 
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+ 
+    html, body {
+      height: 100%;
+    }
+ 
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow: hidden;
+    }
+ 
+    /* ── Ambient background particles ── */
+    .bg-particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-particles span {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--purple-neon);
+      opacity: 0;
+      animation: floatParticle linear infinite;
+    }
+ 
+    @keyframes floatParticle {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.15; }
+      90%  { opacity: 0.06; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+ 
+    /* ── Scene: perspective wrapper ── */
+    .scene {
+      perspective: 1400px;
+      perspective-origin: 50% 50%;
+      position: relative;
+      z-index: 1;
+      width: 760px;
+      max-width: 100%;
+    }
+ 
+    /* ── Flipper: the rotating container ── */
+    .flipper {
+      position: relative;
+      transform-style: preserve-3d;
+      transition:
+        transform var(--flip-duration) cubic-bezier(0.77, 0, 0.175, 1);
+      /* Height set by JS to match tallest face */
+    }
+ 
+    .flipper.flipped {
+      transform: rotateY(180deg);
+    }
+ 
+    /* ── Card face shared styles ── */
+    .card-face {
+      width: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      /* box-shadow:
+        0 0 0 2px var(--purple-neon),
+        0 0 18px 4px rgba(155, 48, 255, 0.55),
+        0 0 60px 10px rgba(155, 48, 255, 0.2),
+        inset 0 0 40px rgba(90, 26, 138, 0.1); */
+        box-shadow:
+  0 0 0 2px var(--purple-neon),
+  0 0 18px 4px rgba(0,0,0,0.3),
+  0 0 60px 10px rgba(0,0,0,0.15),
+  inset 0 0 40px rgba(0,0,0,0.08);
+    }
+ 
+    /* Front = Login */
+    .card-front {
+      position: relative;
+      transform: rotateY(0deg);
+    }
+ 
+    /* Back = Signup */
+    .card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: rotateY(180deg);
+    }
+ 
+    /* ── Flip flash overlay ── */
+    .flip-flash {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      /* background: radial-gradient(ellipse at center, rgba(155,48,255,0.18) 0%, transparent 70%); */
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.18) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+    .flip-flash.active {
+      opacity: 1;
+    }
+ 
+    /* ══════════════════════════════════
+       LOGIN CARD INTERNALS
+    ══════════════════════════════════ */
+ 
+    .login-left {
+      flex: 0 0 52%;
+      background: var(--bg-left);
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+ 
+    .login-right {
+      flex: 1;
+      /* background: linear-gradient(135deg, var(--purple-mid) 0%, var(--bg-right) 60%, #1a0535 100%); */
+      background: linear-gradient(135deg, var(--purple-mid) 0%, var(--bg-right) 60%, var(--bg-dark) 100%);
+      padding: 48px 36px 48px 54px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 1;
+      position: relative;
+      overflow: hidden;
+      align-items: center;
+      text-align: center;
+    }
+ 
+    /* ══════════════════════════════════
+       SIGNUP CARD INTERNALS
+    ══════════════════════════════════ */
+ 
+    .signup-left {
+      flex: 0 0 48%;
+      /* background: linear-gradient(135deg, var(--purple-mid) 0%, var(--bg-right) 60%, #1a0535 100%); */
+      background: linear-gradient(135deg, var(--purple-mid) 0%, var(--bg-right) 60%, var(--bg-dark) 100%);
+      padding: 48px 36px 48px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 1;
+      position: relative;
+      overflow: hidden;
+      align-items: center;
+      text-align: center;
+    }
+ 
+    .signup-right {
+      flex: 1;
+      background: var(--bg-left);
+      padding: 40px 40px 40px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+ 
+    /* ── Headings ── */
+    .login-left h1,
+    .signup-right h1 {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 700;
+      font-size: 1.9rem;
+      color: var(--text-white);
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+    }
+ 
+    .signup-right h1 {
+      margin-bottom: 20px;
+    }
+ 
+    .login-right h2,
+    .signup-left h2 {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 900;
+      font-size: 2.5rem;
+      color: var(--text-white);
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 2;
+    }
+ 
+    .login-right p,
+    .signup-left p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.65;
+      max-width: 200px;
+      position: relative;
+      z-index: 2;
+    }
+ 
+    /* ── Form groups ── */
+    .form-group {
+      margin-bottom: 20px;
+    }
+ 
+    .signup-right .form-group {
+      margin-bottom: 16px;
+    }
+ 
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--label-purple);
+      margin-bottom: 6px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+ 
+    .form-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .form-row .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+ 
+    .input-wrapper {
+      position: relative;
+    }
+ 
+    .input-wrapper input {
+      width: 100%;
+      background: var(--input-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--input-border);
+      border-radius: 6px;
+      padding: 10px 38px 10px 14px;
+      color: var(--text-white);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+ 
+    .input-wrapper input::placeholder { color: #6a5a8a; }
+ 
+    .input-wrapper input:focus {
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(123, 47, 190, 0.25);
+    }
+ 
+    .input-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      pointer-events: none;
+    }
+ 
+    /* ── Buttons ── */
+    .btn-login,
+    .btn-signup {
+      width: 100%;
+      padding: 11px;
+      background: linear-gradient(90deg, var(--purple-bright), var(--purple-neon));
+      border: none;
+      border-radius: 50px;
+      color: var(--text-white);
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+      box-shadow: 0 4px 18px rgba(155, 48, 255, 0.45);
+    }
+ 
+    .btn-signup { margin-top: 4px; }
+ 
+    .btn-login:hover,
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+      box-shadow: 0 6px 24px rgba(155, 48, 255, 0.65);
+    }
+ 
+    .btn-login:active,
+    .btn-signup:active {
+      transform: translateY(0);
+    }
+ 
+    /* ── Nav links ── */
+    .signup-text,
+    .login-text {
+      margin-top: 18px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+ 
+    .login-text { margin-top: 16px; }
+ 
+    .signup-text a,
+    .login-text a {
+      color: var(--purple-neon);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+    }
+ 
+    .signup-text a:hover,
+    .login-text a:hover {
+      color: var(--purple-glow);
+      text-decoration: underline;
+    }
+ 
+    /* ── Terms ── */
+    .terms-text {
+      font-size: 0.7rem;
+      color: rgba(155, 48, 255, 0.5);
+      margin-top: 10px;
+    }
+ 
+    .terms-text a {
+      color: var(--purple-neon);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+ 
+    .terms-text a:hover {
+      color: var(--purple-glow);
+      text-decoration: underline;
+    }
+ 
+    /* ── Orbit rings ── */
+    .orbit-ring {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border: 1px solid rgba(155, 48, 255, 0.25);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: spin 10s linear infinite;
+    }
+ 
+    .orbit-ring2 {
+      width: 280px;
+      height: 280px;
+      opacity: 0.4;
+      animation: spin 15s linear infinite reverse;
+    }
+ 
+    .orbit-ring3 {
+      width: 340px;
+      height: 340px;
+      opacity: 0.2;
+      animation: spin 22s linear infinite;
+    }
+ 
+    .orbit-ring::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #32e8f5;
+      top: -5px;
+      left: 50%;
+      margin-left: -5px;
+      box-shadow: 0 0 10px #9b30ff, 0 0 20px #9b30ff;
+    }
+ 
+    .orbit-ring2::after {
+      background: #3be329;
+      box-shadow: 0 0 10px #bf5fff, 0 0 20px #bf5fff;
+    }
+ 
+    .orbit-ring3::after {
+      width: 8px;
+      height: 8px;
+      background: #25f0df;
+      box-shadow: 0 0 8px white, 0 0 16px white;
+    }
+ 
+    @keyframes spin {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to   { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+ 
+    .toggle-password{
+    cursor:pointer;
+    pointer-events:auto;
+}
+.toggle-password i{
+    transition:.2s;
+}
+
+.toggle-password:hover i{
+    color:#9b30ff;
+}
+
+ /* ════════════════════════════
+       FLOATING THEME TOGGLE
+    ════════════════════════════ */
+    .theme-toggle {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50px;
+      padding: 7px 14px 7px 10px;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.4s, box-shadow 0.4s, background 0.4s;
+      user-select: none;
+    }
+    .theme-toggle:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: var(--neon);
+      box-shadow: 0 0 14px 2px rgba(var(--glow-r),var(--glow-g),var(--glow-b),0.3);
+    }
+ 
+    /* the pill track */
+    .toggle-track {
+      width: 36px; height: 20px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      position: relative;
+      transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+      flex-shrink: 0;
+    }
+    .teal .toggle-track {
+      background: rgba(0,255,179,0.18);
+      border-color: #00ffb3;
+      box-shadow: 0 0 8px rgba(0,255,179,0.4);
+    }
+ 
+    /* the thumb */
+    .toggle-thumb {
+      position: absolute;
+      top: 2px; left: 2px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: rgba(155,48,255,0.6);
+      box-shadow: 0 0 6px rgba(155,48,255,0.8);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+                  background 0.4s, box-shadow 0.4s;
+    }
+    .teal .toggle-thumb {
+      transform: translateX(16px);
+      background: #00ffb3;
+      box-shadow: 0 0 8px #00ffb3, 0 0 16px rgba(0,255,179,0.5);
+    }
+ 
+    /* icons inside toggle */
+    .toggle-icons {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 11px;
+    }
+    .icon-purple { color: rgba(155,48,255,0.7); transition: opacity 0.4s, color 0.4s; }
+    .icon-teal   { color: rgba(0,255,179,0.4);  transition: opacity 0.4s, color 0.4s; }
+    .teal .icon-purple { color: rgba(155,48,255,0.35); }
+    .teal .icon-teal   { color: #00ffb3; }
+ 
+    .toggle-label {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.4s;
+      white-space: nowrap;
+    }
+    .teal .toggle-label { color: rgba(255,255,255,0.7); }
+
+    /* ── Status badge ── */
+    .status-badge {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      align-self: flex-start;
+      margin-bottom: 14px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+    }
+ 
+    .status-badge span {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #00ff88;
+      box-shadow: 0 0 8px #00ff88, 0 0 16px #00ff88;
+      animation: pulseDot 1.5s infinite;
+    }
+
+    body {
+    transition: transform .5s ease;
+}
+
+.slide-out {
+    transform: translateX(-100%);
+}
+ 
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.4); }
+    }
+ 
+    /* ── Glitch text effect on flip label ── */
+    .flip-hint {
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(155, 48, 255, 0.4);
+      white-space: nowrap;
+      animation: hintPulse 3s ease-in-out infinite;
+    }
+ 
+    @keyframes hintPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+ 
+    /* ── Sheen that sweeps across the card on flip ── */
+    .card-face::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        105deg,
+        transparent 40%,
+        rgba(155, 48, 255, 0.18) 50%,
+        rgba(255, 255, 255, 0.06) 55%,
+        transparent 65%
+      );
+      background-size: 250% 100%;
+      background-position: 200% 0;
+      pointer-events: none;
+      z-index: 100;
+      border-radius: 16px;
+      transition: background-position 0s;
+    }
+ 
+    .card-face.sheen::after {
+      background-position: -50% 0;
+      transition: background-position 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+ 
+    /* ── Responsive ── */
+    @media (max-width: 580px) {
+      .scene { width: 100%; }
+ 
+      .card-front,
+      .card-back {
+        flex-direction: column;
+      }
+ 
+      .login-left, .signup-right {
+        flex: unset;
+        padding: 36px 28px 28px;
+      }
+ 
+      .login-right, .signup-left {
+        flex: unset;
+        padding: 28px 28px 36px;
+        text-align: center;
+        align-items: center;
+      }
+ 
+      .login-right p, .signup-left p {
+        max-width: 100%;
+      }
+ 
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+        margin-bottom: 0;
+      }
+      .form-row .form-group { margin-bottom: 16px; }
+ 
+      .flipper.flipped { transform: rotateX(180deg); }
+      .card-back { transform: rotateX(180deg); }
+    }
+  </style>
+</head>
+ 
+<body>
+ <button class="theme-toggle" id="themeToggle">
+    <div class="toggle-icons">
+        <i class="fa-solid fa-circle icon-purple" style="font-size:9px"></i>
+
+        <div class="toggle-track">
+            <div class="toggle-thumb"></div>
+        </div>
+
+        <i class="fa-solid fa-circle icon-teal" style="font-size:9px"></i>
+    </div>
+
+    <span class="toggle-label" id="toggleLabel">Purple</span>
+</button>
+  <!-- Ambient particles -->
+  <div class="bg-particles" id="particles"></div>
+ 
+  <!-- Flash overlay -->
+  <div class="flip-flash" id="flipFlash"></div>
+ 
+  <main>
+    <div class="scene">
+      <div class="flipper flipped" id="flipper">
+ 
+        <!-- ══ FRONT: LOGIN ══ -->
+        <div class="card-face card-front" id="cardFront">
+ 
+          <!-- Left: Login Form -->
+          <section class="login-left" aria-label="Login form">
+            <div class="status-badge"><span></span>Secure Access</div>
+            <h1>Login</h1>
+            <form action="/login" method="POST" novalidate>
+              <div class="form-group">
+                <label for="l-username">Username</label>
+                <div class="input-wrapper">
+                  <input type="text" id="l-username" name="username" placeholder="Email or Phone" autocomplete="username" required aria-required="true" />
+                  <span class="input-icon" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="l-password">Password</label>
+                <div class="input-wrapper">
+                  <input type="password" id="l-password" name="password" placeholder="Password" autocomplete="current-password" required aria-required="true" />
+                  <!-- <span class="input-icon" aria-hidden="true"><i class="fa-solid fa-lock"></i></span> -->
+                   <span class="input-icon toggle-password">
+    <i class="fa-solid fa-eye"></i>
+</span>
+                </div>
+              </div>
+              <button type="submit" class="btn-login" aria-label="Sign in to your account">LOGIN</button>
+            </form>
+            <p class="signup-text">
+              Don't have an account? <a id="goSignup">Sign Up</a>
+            </p>
+          </section>
+ 
+          <!-- Right: Welcome -->
+          <section class="login-right" aria-label="Welcome message">
+            <div class="orbit-ring"></div>
+            <div class="orbit-ring orbit-ring2"></div>
+            <h2>Welcome<br>Back!</h2>
+            <p>Welcome back. Log in to continue where you left off !! </p>
+          </section>
+ 
+        </div>
+        <!-- /FRONT -->
+ 
+        <!-- ══ BACK: SIGNUP ══ -->
+        <div class="card-face card-back" id="cardBack">
+ 
+          <!-- Left: Welcome -->
+          <section class="signup-left" aria-label="Welcome message">
+            <div class="orbit-ring"></div>
+            <div class="orbit-ring orbit-ring2"></div>
+            <div class="orbit-ring orbit-ring3"></div>
+            <h2>Hello,<br>Friend!</h2>
+            <p>Join us today and unlock access to everything we have to offer.</p>
+          </section>
+ 
+          <!-- Right: Signup Form -->
+          <section class="signup-right" aria-label="Sign up form">
+            <div class="status-badge"><span></span>New Account</div>
+            <h1>Sign Up</h1>
+            <form id="signupForm" action="/signup" method="POST" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="s-firstname">First Name</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="s-firstname" name="firstname" placeholder="John" autocomplete="given-name" required aria-required="true" required/>
+                    <span class="input-icon" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="s-lastname">Last Name</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="s-lastname" name="lastname" placeholder="Doe" autocomplete="family-name" required aria-required="true" />
+                    <span class="input-icon" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="s-email">Email Address</label>
+                <div class="input-wrapper">
+                  <input type="email" id="s-email" name="email" placeholder="john@example.com" autocomplete="email" required aria-required="true" />
+                  <span class="input-icon" aria-hidden="true"><i class="fa-solid fa-envelope"></i></span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="s-password">Password</label>
+                <div class="input-wrapper">
+                  <input type="password" id="s-password" name="password" placeholder="Min. 8 characters" autocomplete="new-password" minlength="8" required aria-required="true" />
+                  <!-- <span class="input-icon" aria-hidden="true"><i class="fa-solid fa-lock"></i></span> -->
+                   <span class="input-icon toggle-password">
+    <i class="fa-solid fa-eye"></i>
+</span>
+                </div>
+              </div>
+              <button type="submit" class="btn-signup" aria-label="Create your account">CREATE ACCOUNT</button>
+            </form>
+            <p class="login-text">
+              Already have an account? <a id="goLogin">Login</a>
+            </p>
+            <p class="terms-text">
+              By signing up you agree to our
+              <a href="terms.html">Terms</a> &amp;
+              <a href="privacy.html">Privacy Policy</a>.
+            </p>
+          </section>
+ 
+        </div>
+        <!-- /BACK -->
+ 
+      </div><!-- /flipper -->
+ 
+      <div class="flip-hint" id="flipHint"> ↻</div>
+    </div><!-- /scene -->
+  </main>
+ 
+  <script>
+    /* ── Particles ── */
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 22; i++) {
+      const s = document.createElement('span');
+      const size = Math.random() * 4 + 2;
+      s.style.cssText = `
+        width:${size}px; height:${size}px;
+        left:${Math.random()*100}%;
+        animation-duration:${Math.random()*14+8}s;
+        animation-delay:${Math.random()*10}s;
+      `;
+      container.appendChild(s);
+    }
+ 
+    /* ── Height sync: make flipper match tallest face ── */
+    const flipper   = document.getElementById('flipper');
+    const cardFront = document.getElementById('cardFront');
+    const cardBack  = document.getElementById('cardBack');
+ 
+    function syncHeight() {
+      // Temporarily make both visible to measure
+      cardBack.style.visibility = 'hidden';
+      cardBack.style.position   = 'absolute';
+      const h = Math.max(cardFront.offsetHeight, cardBack.offsetHeight);
+      flipper.style.height = h + 'px';
+      cardBack.style.visibility = '';
+      cardBack.style.position   = '';
+    }
+    syncHeight();
+    window.addEventListener('resize', syncHeight);
+ 
+    /* ── Flip logic ── */
+    const flash     = document.getElementById('flipFlash');
+    const hint      = document.getElementById('flipHint');
+    let   isFlipped = true;
+    let   flipping  = false;
+ 
+    function doFlip() {
+      if (flipping) return;
+      flipping = true;
+ 
+      /* 1. Sheen sweep */
+      cardFront.classList.add('sheen');
+      cardBack.classList.add('sheen');
+ 
+      /* 2. Flash burst */
+      flash.classList.add('active');
+      setTimeout(() => flash.classList.remove('active'), 220);
+ 
+      /* 3. Rotate */
+      isFlipped = !isFlipped;
+      flipper.classList.toggle('flipped', isFlipped);
+ 
+      /* 4. Update hint */
+      hint.textContent = isFlipped ? '↺ flip to login' : 'flip to sign up ↻';
+ 
+      /* 5. Reset sheen + unlock after animation */
+      setTimeout(() => {
+        cardFront.classList.remove('sheen');
+        cardBack.classList.remove('sheen');
+        flipping = false;
+      }, 950);
+    }
+ 
+    document.getElementById('goSignup').addEventListener('click', doFlip);
+    document.getElementById('goLogin').addEventListener('click', doFlip);
+ 
+   
+ 
+    /* ── Keyboard accessibility ── */
+    document.getElementById('goSignup').setAttribute('tabindex', '0');
+    document.getElementById('goLogin').setAttribute('tabindex',  '0');
+ 
+    [document.getElementById('goSignup'), document.getElementById('goLogin')].forEach(el => {
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); doFlip(); }
+      });
+    });
+
+    const loginPassword = document.getElementById('l-password');
+const loginEye = loginPassword
+    .parentElement
+    .querySelector('.toggle-password');
+
+loginEye.addEventListener('click', () => {
+    if(loginPassword.type === 'password'){
+        loginPassword.type = 'text';
+        loginEye.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+    }else{
+        loginPassword.type = 'password';
+        loginEye.innerHTML = '<i class="fa-solid fa-eye"></i>';
+    }
+});
+
+const signupPassword = document.getElementById('s-password');
+const signupEye = signupPassword
+    .parentElement
+    .querySelector('.toggle-password');
+
+signupEye.addEventListener('click', () => {
+    if(signupPassword.type === 'password'){
+        signupPassword.type = 'text';
+        signupEye.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+    }else{
+        signupPassword.type = 'password';
+        signupEye.innerHTML = '<i class="fa-solid fa-eye"></i>';
+    }
+});
+
+const themeToggle = document.getElementById('themeToggle');
+const toggleLabel = document.getElementById('toggleLabel');
+
+let isTeal = false;
+
+themeToggle.addEventListener('click', () => {
+
+    isTeal = !isTeal;
+
+    document.documentElement.classList.toggle('teal', isTeal);
+
+    toggleLabel.textContent = isTeal ? 'Teal' : 'Purple';
+
+});
+
+document.querySelector(".terms-link").addEventListener("click", (e) => {
+    e.preventDefault();
+
+    document.body.classList.add("slide-out");
+
+    setTimeout(() => {
+        window.location.href = "terms.html";
+    }, 500);
+});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <script src="script.js"></script>
+ 
+</body>
+</html>
+ 

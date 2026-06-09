@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-deep:    #0d0b14;
+      --bg-card-l:  #13111e;
+      --bg-card-r:  #2a1450;
+      --purple-glow:#a855f7;
+      --purple-mid: #7c3aed;
+      --purple-soft: #6d28d9;
+      --text-main:  #e9e3ff;
+      --text-muted: #a89dbf;
+      --accent:     #c084fc;
+      --border:     rgba(168,85,247,0.45);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    /* animated background particles */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 15% 20%, rgba(124,58,237,0.18) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 35% at 85% 75%, rgba(168,85,247,0.15) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+      animation: bgPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      from { opacity: 0.7; }
+      to   { opacity: 1; }
+    }
+
+    /* floating orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      animation: orbFloat 12s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 300px; height: 300px; background: rgba(124,58,237,0.25); top: -80px; left: -80px; animation-duration: 10s; }
+    .orb-2 { width: 250px; height: 250px; background: rgba(168,85,247,0.2);  bottom: -60px; right: -60px; animation-duration: 14s; animation-direction: alternate-reverse; }
+    .orb-3 { width: 180px; height: 180px; background: rgba(192,132,252,0.15); top: 50%; left: 50%; animation-duration: 18s; }
+
+    @keyframes orbFloat {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(30px, 40px) scale(1.1); }
+    }
+
+    /* main card */
+    .card {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      width: 100%;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(168,85,247,0.1),
+        0 0 40px rgba(124,58,237,0.3),
+        0 0 80px rgba(124,58,237,0.1),
+        0 30px 60px rgba(0,0,0,0.6);
+      animation: cardIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* neon border glow animation */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 21px;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--purple-glow), transparent 40%, transparent 60%, var(--purple-mid));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderGlow 4s linear infinite;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    @keyframes borderGlow {
+      0%   { opacity: 0.6; filter: blur(0px); }
+      50%  { opacity: 1;   filter: blur(1px); }
+      100% { opacity: 0.6; filter: blur(0px); }
+    }
+
+    /* two-column header like the login card */
+    .card-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 180px;
+    }
+
+    .header-left {
+      background: var(--bg-card-l);
+      padding: 40px 40px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* diagonal divider like the login design */
+    .header-left::after {
+      content: '';
+      position: absolute;
+      top: 0; right: -40px;
+      width: 80px;
+      height: 100%;
+      background: var(--bg-card-l);
+      clip-path: polygon(0 0, 30% 0, 100% 100%, 0 100%);
+      z-index: 1;
+    }
+
+    .header-left h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      color: #fff;
+      animation: titleIn 0.7s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes titleIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .header-left .subtitle {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      animation: titleIn 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .header-right {
+      background: var(--bg-card-r);
+      padding: 40px 40px 32px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      animation: rightIn 0.7s 0.3s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes rightIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .header-right .welcome {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .header-right .last-updated {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* shield icon */
+    .shield-icon {
+      width: 48px; height: 48px;
+      margin-bottom: 14px;
+      animation: iconPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes iconPulse {
+      0%, 100% { filter: drop-shadow(0 0 6px var(--purple-glow)); }
+      50%       { filter: drop-shadow(0 0 16px var(--purple-glow)) drop-shadow(0 0 30px var(--accent)); }
+    }
+
+    /* body content */
+    .card-body {
+      background: var(--bg-card-l);
+      padding: 0 0 48px;
+    }
+
+    /* section tabs */
+    .toc {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 0 40px;
+    }
+    .toc::-webkit-scrollbar { display: none; }
+
+    .toc-item {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 16px 20px;
+      white-space: nowrap;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.25s, border-color 0.25s;
+    }
+
+    .toc-item:hover,
+    .toc-item.active {
+      color: var(--accent);
+      border-bottom-color: var(--purple-glow);
+    }
+
+    /* sections */
+    .sections {
+      padding: 40px 40px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .policy-section {
+      padding: 36px 0;
+      border-bottom: 1px solid rgba(168,85,247,0.12);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .policy-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .policy-section:last-child { border-bottom: none; }
+
+    .section-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--purple-glow);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .section-body {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .section-body p + p { margin-top: 12px; }
+
+    /* highlight pill */
+    .highlight {
+      display: inline-block;
+      background: rgba(168,85,247,0.12);
+      border: 1px solid rgba(168,85,247,0.3);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin: 2px;
+    }
+
+    /* bullet list */
+    .policy-list {
+      list-style: none;
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .policy-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .policy-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 6px; height: 6px;
+      margin-top: 8px;
+      border-radius: 50%;
+      background: var(--purple-glow);
+      box-shadow: 0 0 6px var(--purple-glow);
+    }
+
+    /* contact box */
+    .contact-box {
+      margin-top: 20px;
+      background: rgba(124,58,237,0.08);
+      border: 1px solid rgba(168,85,247,0.25);
+      border-radius: 12px;
+      padding: 20px 24px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .contact-box a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-box a:hover { color: #fff; }
+
+    /* footer */
+    .card-footer {
+      background: var(--bg-card-l);
+      border-top: 1px solid var(--border);
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--purple-mid), var(--purple-glow));
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 32px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(168,85,247,0.4);
+      transition: box-shadow 0.3s, transform 0.2s;
+    }
+
+    .footer-btn:hover {
+      box-shadow: 0 0 35px rgba(168,85,247,0.7);
+      transform: translateY(-2px);
+    }
+
+    .footer-btn:active { transform: translateY(0); }
+
+    /* link like sign up */
+    .sign-link {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .sign-link a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .sign-link a:hover { color: #fff; }
+
+    @media (max-width: 620px) {
+      .card-header { grid-template-columns: 1fr; }
+      .header-left::after { display: none; }
+      .header-right { padding-left: 40px; }
+      .toc { padding: 0 20px; }
+      .sections { padding: 24px 20px 0; }
+      .card-footer { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="card-header">
+      <div class="header-left">
+        <div class="subtitle">Legal Document</div>
+        <h1>Privacy<br>Policy</h1>
+      </div>
+      <div class="header-right">
+        <svg class="shield-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 4L6 12V24C6 33.9 14.1 43.1 24 46C33.9 43.1 42 33.9 42 24V12L24 4Z" fill="rgba(124,58,237,0.25)" stroke="#a855f7" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M17 24L22 29L31 19" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="welcome">YOUR DATA,<br>YOUR RIGHTS.</div>
+        <div class="last-updated">Effective date: June 1, 2026 · Last updated: June 6, 2026</div>
+      </div>
+    </div>
+
+    <!-- TOC TABS -->
+    <div class="card-body">
+      <div class="toc">
+        <div class="toc-item active" id="#1">Overview</div>
+        <div class="toc-item" id="#2"> Collection</div>
+        <div class="toc-item" id="#3">Usage</div>
+        <div class="toc-item" id="#4">Sharing</div>
+        <div class="toc-item" id="#5">Security</div>
+        <div class="toc-item" id="#6">Your Rights</div>
+        <div class="toc-item" id="#7">Contact</div>
+      </div>
+
+      <div class="sections">
+
+        <!-- 1 -->
+        <div class="policy-section" id="1">
+          <div class="section-number">01 — Overview</div>
+          <div class="section-title">Introduction</div>
+          <div class="section-body">
+            <p>We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.</p>
+            <p>By accessing our platform you agree to the terms described below. If you do not agree, please discontinue use of our services immediately.</p>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="policy-section" id="2">
+          <div class="section-number">02 — Collection</div>
+          <div class="section-title">Information We Collect</div>
+          <div class="section-body">
+            <p>We collect information you provide directly to us as well as data gathered automatically during your use of the service.</p>
+            <ul class="policy-list">
+              <li>Account credentials: username, email address, and encrypted password hash.</li>
+              <li>Profile information you choose to provide such as display name and avatar.</li>
+              <li>Device and usage data: IP address, browser type, operating system, pages visited, and time spent.</li>
+              <li>Communications you send us, including support tickets and feedback.</li>
+              <li>Payment information processed securely by our third-party provider — we never store raw card details.</li>
+            </ul>
+            <div style="margin-top:16px;">
+              <span class="highlight">Cookies</span>
+              <span class="highlight">Local Storage</span>
+              <span class="highlight">Analytics</span>
+              <span class="highlight">Log Files</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="policy-section" id="3">
+          <div class="section-number">03 — Usage</div>
+          <div class="section-title">How We Use Your Information</div>
+          <div class="section-body">
+            <p>Your data helps us operate and continuously improve our services. Specifically, we use the information to:</p>
+            <ul class="policy-list">
+              <li>Create and manage your account and authenticate your sessions.</li>
+              <li>Deliver the core functionality of our platform and personalise your experience.</li>
+              <li>Send transactional emails such as password resets and billing receipts.</li>
+              <li>Monitor usage patterns to detect abuse, fraud, and security threats.</li>
+              <li>Comply with legal obligations and enforce our Terms of Service.</li>
+              <li>Conduct internal analytics to improve product features and performance.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="policy-section" id="4">
+          <div class="section-number">04 — Sharing</div>
+          <div class="section-title">Disclosure of Your Information</div>
+          <div class="section-body">
+            <p>We do not sell, trade, or rent your personal information to third parties. We may share data only in the following limited circumstances:</p>
+            <ul class="policy-list">
+              <li><strong style="color:#e9e3ff;">Service Providers:</strong> Trusted vendors who assist in operating our platform under strict confidentiality agreements.</li>
+              <li><strong style="color:#e9e3ff;">Legal Requirements:</strong> When required by law, court order, or governmental authority.</li>
+              <li><strong style="color:#e9e3ff;">Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets, with advance notice to you.</li>
+              <li><strong style="color:#e9e3ff;">With Your Consent:</strong> Any other sharing done only with your explicit prior approval.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="policy-section" id="5">
+          <div class="section-number">05 — Security</div>
+          <div class="section-title">How We Protect Your Data</div>
+          <div class="section-body">
+            <p>We implement industry-standard technical and organisational measures to safeguard your personal information against unauthorised access, alteration, disclosure, or destruction.</p>
+            <ul class="policy-list">
+              <li>All data in transit is encrypted via TLS 1.3.</li>
+              <li>Passwords are hashed using bcrypt with per-user salts.</li>
+              <li>Access to production systems is restricted to authorised personnel via MFA-protected accounts.</li>
+              <li>We conduct regular security audits and penetration testing.</li>
+            </ul>
+            <p style="margin-top:14px;">Despite our best efforts, no method of transmission over the internet is 100% secure. We encourage you to use a strong, unique password and enable two-factor authentication.</p>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="policy-section" id="6">
+          <div class="section-number">06 — Your Rights</div>
+          <div class="section-title">Control Over Your Information</div>
+          <div class="section-body">
+            <p>Depending on your jurisdiction you may have the following rights regarding your personal data:</p>
+            <ul class="policy-list">
+              <li><strong style="color:#e9e3ff;">Access:</strong> Request a copy of the personal data we hold about you.</li>
+              <li><strong style="color:#e9e3ff;">Rectification:</strong> Ask us to correct inaccurate or incomplete data.</li>
+              <li><strong style="color:#e9e3ff;">Erasure:</strong> Request deletion of your personal data, subject to legal retention obligations.</li>
+              <li><strong style="color:#e9e3ff;">Portability:</strong> Receive your data in a structured, machine-readable format.</li>
+              <li><strong style="color:#e9e3ff;">Objection:</strong> Object to processing for direct marketing or profiling purposes.</li>
+              <li><strong style="color:#e9e3ff;">Withdraw Consent:</strong> Where processing is consent-based, withdraw at any time without affecting prior processing.</li>
+            </ul>
+            <p style="margin-top:14px;">To exercise any of these rights, please contact us using the details below. We will respond within 30 days.</p>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="policy-section" id="7">
+          <div class="section-number">07 — Contact</div>
+          <div class="section-title">Get In Touch</div>
+          <div class="section-body">
+            <p>If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please reach out to our Privacy Team:</p>
+            <div class="contact-box">
+              <strong style="color:#e9e3ff;">Privacy Team</strong><br>
+              Email: <a href="mailto:privacy@pixelflow.com">privacy@pixelflow.com</a><br>
+              Address: Electronic City,Hosur Road, Bengaluru, Karnataka 560001, India<br>
+              Response time: within 2-3 business days.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sections -->
+    </div><!-- /card-body -->
+
+    <!-- FOOTER -->
+    <div class="card-footer">
+      <div class="sign-link">
+        Have questions? <a href="mailto:privacy@pixelflow.com">Contact Us</a>
+      </div>
+      <div class="footer-text">© 2026 Your Company. All rights reserved.</div>
+     <a href="login.html"> <button class="footer-btn" >Accept &amp; Continue</button></a>
+    </div>
+
+  </div><!-- /card -->
+
+  <script>
+    // Tab highlight on click
+    const tabs = document.querySelectorAll('.toc-item');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+
+    // Scroll-triggered section reveal
+    const sections = document.querySelectorAll('.policy-section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    sections.forEach(s => observer.observe(s));
+
+    // Staggered initial reveal
+    sections.forEach((s, i) => {
+      s.style.transitionDelay = `${i * 0.07}s`;
+    });
+  </script>
+</body>
+</html>
