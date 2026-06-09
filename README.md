@@ -1,2 +1,28 @@
-# modern-login-authentication-system
-A Modern Full-Stack Login authentication System built with HTML, CSS, JavaScript, Node.js, Express.js and Email Notifications with Good UI.
+# Modern Full-Stack Login System
+
+A modern login page built using:
+
+- HTML
+- CSS
+- JavaScript
+- Node.js
+- Express.js
+- Nodemailer
+
+## Features
+
+✅ Responsive Login UI
+
+✅ Frontend Validation
+
+✅ Backend Authentication
+
+✅ Email Notifications
+
+## Screenshots
+Linked in the ss folder 
+
+**Please star the repo if it helped you
+## Author
+
+PixelFlow
